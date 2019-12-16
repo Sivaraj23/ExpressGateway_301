@@ -1,0 +1,70 @@
+http:
+  port: 8089
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  api:
+    host: localhost
+    paths: '/ip'
+  search_api:
+    host: localhost
+    paths: '/search'
+  order_api:
+    host: localhost
+    paths: '/orders/*'
+  analysis_api:
+    host: localhost
+    paths: '/analysis/*'
+serviceEndpoints:
+  httpbin:
+    url: 'https://httpbin.org'
+  search_service:
+    url: 'http://localhost:3005/api/'
+  order_service:
+    url: 'http://localhost:3003/api/'
+  analysis_service:
+    url: 'http://localhost:3000/api/'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  default:
+    apiEndpoints:
+      - api
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: httpbin 
+              changeOrigin: true
+  restaurant-search-pipelines:
+   apiEndpoints:
+     - search_api
+   policies:
+     - key-auth: 
+     - proxy:
+        - action:
+             serviceEndpoint: search_service
+             changeOrigin: true
+  order-pipelines:
+   apiEndpoints:
+     - order_api
+   policies:
+     - proxy:
+        - action:
+             serviceEndpoint: order_service
+             changeOrigin: true
+  analysis-pipelines:
+   apiEndpoints:
+     - analysis_api
+   policies:
+     - proxy:
+        - action:
+             serviceEndpoint: analysis_service
+             changeOrigin: true
