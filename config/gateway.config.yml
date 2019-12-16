@@ -20,9 +20,9 @@ serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'
   search_service:
-    url: 'http://localhost:3005/api/'
+    url: 'http://localhost:3002/api/'
   order_service:
-    url: 'http://localhost:3003/api/'
+    url: 'http://localhost:3001/api/'
   analysis_service:
     url: 'http://localhost:3000/api/'
 policies:
